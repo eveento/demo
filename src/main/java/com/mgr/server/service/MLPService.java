@@ -40,7 +40,6 @@ public class MLPService {
         };
         Thread thread = new Thread(runnable);
         thread.start();
-        System.out.println("@" + _memory);
     }
 
     private static boolean isPrimeBruteForce(int number) {
