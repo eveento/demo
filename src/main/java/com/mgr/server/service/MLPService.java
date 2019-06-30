@@ -34,7 +34,12 @@ public class MLPService {
         Runnable runnable = () -> {
             while (!_memory.getReady() && _memory.getPercent() != 100.0) {
                 _memory.setPercent(_memory.getPercent() + 0.5);
-                primeNumbersTill(Level.LOW);
+//                primeNumbersTill(Level.LOW);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 rabbitTemplate.convertAndSend(rabbitOutputName,_memory);
             }
         };
