@@ -24,8 +24,8 @@ public class MLPService {
     @Value("${rabbit.output.queue.name}")
     private String rabbitOutputName;
 
-    @Value("execut.time")
-    private long times;
+    @Value("execute.time")
+    private String times;
 
     @RabbitListener(queues = "${rabbit.input.queue.name}")
     public void rabbitReader(Memory _memory) throws InterruptedException {
@@ -38,7 +38,7 @@ public class MLPService {
                 _memory.setPercent(_memory.getPercent() + 0.5);
 //                primeNumbersTill(Level.LOW);
                 try {
-                    Thread.sleep(times);
+                    Thread.sleep(Long.parseLong(times));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
