@@ -1,13 +1,12 @@
 package com.mgr.server.service;
 
+import com.mgr.server.entity.Memory;
 import com.mgr.server.enums.Level;
 import com.mgr.server.exceptions.NotFoundHandler;
-import com.mgr.server.entity.Memory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -25,6 +24,9 @@ public class MLPService {
     @Value("${rabbit.output.queue.name}")
     private String rabbitOutputName;
 
+    @Value("execut.time")
+    private long times;
+
     @RabbitListener(queues = "${rabbit.input.queue.name}")
     public void rabbitReader(Memory _memory) throws InterruptedException {
         executeLogic(_memory);
@@ -36,7 +38,7 @@ public class MLPService {
                 _memory.setPercent(_memory.getPercent() + 0.5);
 //                primeNumbersTill(Level.LOW);
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(times);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
