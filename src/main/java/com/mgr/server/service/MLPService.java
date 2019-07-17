@@ -11,9 +11,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 @Service
 public class MLPService {
+//    long t;
+//
+//    {
+//        String properties =System.getProperty("executeTime");
+//        t = Long.parseLong(properties);
+//    }
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -24,8 +31,9 @@ public class MLPService {
     @Value("${rabbit.output.queue.name}")
     private String rabbitOutputName;
 
-    @Value("execute.time")
+    @Value("${executeTime}")
     private String times;
+
 
     @RabbitListener(queues = "${rabbit.input.queue.name}")
     public void rabbitReader(Memory _memory) throws InterruptedException {
@@ -38,7 +46,7 @@ public class MLPService {
                 _memory.setPercent(_memory.getPercent() + 0.5);
 //                primeNumbersTill(Level.LOW);
                 try {
-                    Thread.sleep(Long.parseLong(times));
+                    Thread.sleep(Long.valueOf(times));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
